@@ -29,7 +29,7 @@ class Quiz():
 		
 		self.Hint			= False
 		self.Korrekte		= 0
-		self.Alle_regioner	= ["Kanto", "Johto", "Hoenn", "Sinnoh"]
+		self.Alle_regioner	= ["Test", "Kanto", "Johto", "Hoenn", "Sinnoh"]
 		self.Alle_språk		= ["Norsk", "norsk", "Norwegian", "norwegian", "Engelsk", "engelsk", "English", "english"]
 		self.Språk = -1
 	
@@ -44,14 +44,16 @@ class Quiz():
 		
 		# Sjekker om dette er et støttet språk og spør på nytt hvis ikke
 		while Språk not in self.Alle_språk:
-			print("The language %s doesn't exist or is not supported by this quiz. Choose between %s or %s"%Språk, Alle_språk[2], Alle_språk[6])
-			print("Språket %s eksisterer ikke, eller støttes ikke av denne quizen. Velg mellom %s eller %s."%Språk, Alle_språk[1], Alle_språk[5])
+			if Språk in ["Exit", "exit", "Quit", "quit", "Slutt", "slutt", "Avslutt", "avslutt"]:
+				exit()
+			print("The language %s doesn't exist or is not supported by this quiz. Choose between %s or %s"%(Språk, self.Alle_språk[2], self.Alle_språk[6]))
+			print("Språket %s eksisterer ikke, eller støttes ikke av denne quizen. Velg mellom %s eller %s."%(Språk, self.Alle_språk[1], self.Alle_språk[5]))
 			Språk = input("What language do you want? Hvilket språk ønsker du? ")
 		
 		# Setter variabelen self.Språk som er den som brukes senere
-		if Språk in ["Norsk", "norsk", "Norwegian", "norwegian"]: 
+		if Språk in self.Alle_språk[0:4]: 
 			self.Språk = 0
-		elif Språk in ["Engelsk", "engelsk", "English", "english"]:
+		elif Språk in self.Alle_språk[4:8]:
 			self.Språk = 1
 	
 	def _Region(self):
@@ -91,8 +93,10 @@ class Quiz():
 		# Fikser om regionsnavn ble gitt feil
 		for i in range(len(Region)):
 			while Region[i] not in self.Alle_regioner:
-				if Region[i] in ["Alle", "alle", "All", "all"]: # Fikser alle som input
-					Region = self.Alle_regioner
+				if Region in ["Exit", "exit", "Quit", "quit", "Slutt", "slutt", "Avslutt", "avslutt"]:
+					exit()
+				elif Region[i] in ["Alle", "alle", "All", "all"]: # Fikser alle som input
+					Region = self.Alle_regioner.pop(0)
 				elif Region[i] in ["Ingen", "ingen", "Non", "non", "Nei", "nei", "No", "no"]: # Fikser fjerning av region
 					indekser.append(i)
 					Region[i] = "Kanto"
@@ -108,7 +112,7 @@ class Quiz():
 		
 		# Gjør region til en klassevariabel
 		self.Region = Region
-	
+		
 	def _Start_Timer(self):
 		"""
 		Starter timer
@@ -205,6 +209,7 @@ class Quiz():
 		"""
 		Avslutter quizen ved å kalle på oppsett og printe tiden brukt
 		"""
+		
 		self._Print_oppsett(alt = True) # Kaller på oppsett der svarene skal gis
 		
 		# Printer tiden
