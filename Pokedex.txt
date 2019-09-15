@@ -1,5 +1,9 @@
 nr: Name:			Type 1:		Type 2:
 
+###				Test				###
+000 Tester			Normal
+
+
 ###				Kanto				###
 001	Bulbasaur		Grass		Poison
 002	Ivysaur			Grass		Poison
